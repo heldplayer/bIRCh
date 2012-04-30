@@ -5,7 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class bIRCh extends JavaPlugin {
 	protected PluginDescriptionFile pdfFile;
-	public static final Version version = new Version(0, 0, 1, 2);
+	public static final Version version = new Version(0, 0, 1, 3);
 	public final static String updateUrl = "http://dsiwars.co.cc/jars/bIRCh/";
 
 	public void onDisable() {
