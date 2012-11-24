@@ -1,3 +1,4 @@
+
 package me.heldplayer.bIRCh;
 
 import java.io.BufferedOutputStream;
@@ -13,91 +14,93 @@ import java.net.URLConnection;
 import java.util.HashMap;
 
 public class Updater {
-	public static boolean isOutdated() throws IOException {
-		if (bIRCh.version.isOld(getLatestVersionInfo())) {
-			return true;
-		}
+    public static boolean isOutdated() throws IOException {
+        if (bIRCh.version.isOld(getLatestVersionInfo())) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public static void update() throws IOException, IllegalStateException {
-		if (!isOutdated()) {
-			throw new IllegalStateException("The plugin is not outdated!");
-		} else {
-			OutputStream out = null;
-			URLConnection conn = null;
-			InputStream in = null;
+    public static void update() throws IOException, IllegalStateException {
+        if (!isOutdated()) {
+            throw new IllegalStateException("The plugin is not outdated!");
+        }
+        else {
+            OutputStream out = null;
+            URLConnection conn = null;
+            InputStream in = null;
 
-			try {
-				URL url = new URL(bIRCh.updateUrl + "bIRCh.jar");
-				out = new BufferedOutputStream(new FileOutputStream("plugins" + File.separator + "bIRCh.jar"));
-				conn = url.openConnection();
-				in = conn.getInputStream();
-				
-				byte[] buffer = new byte[1024];
+            try {
+                URL url = new URL(bIRCh.updateUrl + "bIRCh.jar");
+                out = new BufferedOutputStream(new FileOutputStream("plugins" + File.separator + "bIRCh.jar"));
+                conn = url.openConnection();
+                in = conn.getInputStream();
 
-				int numRead;
-				while ((numRead = in.read(buffer)) != -1) {
-					out.write(buffer, 0, numRead);
-				}
-			} finally {
-				try {
-					if (in != null)
-						in.close();
-				} catch (Exception ex) {
-				}
-				try {
-					if (out != null)
-						out.close();
-				} catch (Exception ex) {
-				}
-			}
-		}
-	}
+                byte[] buffer = new byte[1024];
 
-	public static Version getLatestVersionInfo() throws IOException {
-		URL url = new URL(bIRCh.updateUrl + "version.txt");
-		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+                int numRead;
+                while ((numRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, numRead);
+                }
+            }
+            finally {
+                try {
+                    if (in != null)
+                        in.close();
+                }
+                catch (Exception ex) {}
+                try {
+                    if (out != null)
+                        out.close();
+                }
+                catch (Exception ex) {}
+            }
+        }
+    }
 
-		String version = in.readLine();
-		in.close();
+    public static Version getLatestVersionInfo() throws IOException {
+        URL url = new URL(bIRCh.updateUrl + "version.txt");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-		if (version != null) {
-			String[] strings = version.split(".");
+        String version = in.readLine();
+        in.close();
 
-			if (strings.length >= 4) {
-				int major = Integer.parseInt(strings[0]);
-				int minor = Integer.parseInt(strings[1]);
-				int build = Integer.parseInt(strings[2]);
-				int revision = Integer.parseInt(strings[3]);
+        if (version != null) {
+            String[] strings = version.split(".");
 
-				return new Version(major, minor, build, revision);
-			}
-		}
+            if (strings.length >= 4) {
+                int major = Integer.parseInt(strings[0]);
+                int minor = Integer.parseInt(strings[1]);
+                int build = Integer.parseInt(strings[2]);
+                int revision = Integer.parseInt(strings[3]);
 
-		return new Version(0, 0, 0, 0);
-	}
+                return new Version(major, minor, build, revision);
+            }
+        }
 
-	public static String[] getUpdateReasons() throws IOException {
-		URL url = new URL(bIRCh.updateUrl + "reason.txt");
-		BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        return new Version(0, 0, 0, 0);
+    }
 
-		int id = 0;
-		HashMap<Integer, String> reasons = new HashMap<Integer, String>();
+    public static String[] getUpdateReasons() throws IOException {
+        URL url = new URL(bIRCh.updateUrl + "reason.txt");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-		String message;
-		while ((message = in.readLine()) != null) {
-			reasons.put(id, message);
-			id++;
-		}
+        int id = 0;
+        HashMap<Integer, String> reasons = new HashMap<Integer, String>();
 
-		String[] reasonStrings = new String[id];
+        String message;
+        while ((message = in.readLine()) != null) {
+            reasons.put(id, message);
+            id++;
+        }
 
-		for (int i = 0; i < id; i++) {
-			reasonStrings[i] = reasons.get(i);
-		}
+        String[] reasonStrings = new String[id];
 
-		return reasonStrings;
-	}
+        for (int i = 0; i < id; i++) {
+            reasonStrings[i] = reasons.get(i);
+        }
+
+        return reasonStrings;
+    }
 }

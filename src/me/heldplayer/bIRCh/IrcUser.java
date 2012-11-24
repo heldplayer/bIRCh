@@ -1,3 +1,4 @@
+
 package me.heldplayer.bIRCh;
 
 /**
@@ -5,11 +6,11 @@ package me.heldplayer.bIRCh;
  *         Represents a user in an IRC channel
  */
 public class IrcUser {
-	public String getDisplayName() {
-		return "";
-	}
+    public String getDisplayName() {
+        return "";
+    }
 
-	public String getName() {
-		return "";
-	}
+    public String getName() {
+        return "";
+    }
 }

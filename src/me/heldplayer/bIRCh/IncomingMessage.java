@@ -1,43 +1,45 @@
+
 package me.heldplayer.bIRCh;
 
 public class IncomingMessage {
-	private String source = "";
-	private String type = "";
-	private String[] args = null;
-	private String argString = "";
-	
-	protected IncomingMessage(String base){
-		String editable = base.trim();
+    private String source = "";
+    private String type = "";
+    private String[] args = null;
+    private String argString = "";
 
-		if (editable.startsWith(":")) {
-			if (editable.indexOf(" ") < 0) {
-				return;
-			}
+    protected IncomingMessage(String base) {
+        String editable = base.trim();
 
-			source = editable.substring(1, editable.indexOf(" "));
+        if (editable.startsWith(":")) {
+            if (editable.indexOf(" ") < 0) {
+                return;
+            }
 
-			editable = editable.substring(source.length() + 1).trim();
-		}
+            source = editable.substring(1, editable.indexOf(" "));
 
-		String[] split = editable.split(" ");
+            editable = editable.substring(source.length() + 1).trim();
+        }
 
-		if (split.length <= 0) {
-			return;
-		}
+        String[] split = editable.split(" ");
 
-		type = split[0];
+        if (split.length <= 0) {
+            return;
+        }
 
-		editable = editable.substring(type.length()).trim();
+        type = split[0];
 
-		argString = editable;
-		args = argString.split(" ");
-	}
-	
-	public boolean parse(bIRCh plugin) {
-		if (type.equalsIgnoreCase("PING")) {
-			plugin.addToIrcList(new OutgoingMessage("PONG " + argString));;
-			return true;
-		}
-		return false;
-	}
+        editable = editable.substring(type.length()).trim();
+
+        argString = editable;
+        args = argString.split(" ");
+    }
+
+    public boolean parse(bIRCh plugin) {
+        if (type.equalsIgnoreCase("PING")) {
+            plugin.addToIrcList(new OutgoingMessage("PONG " + argString));
+            ;
+            return true;
+        }
+        return false;
+    }
 }
